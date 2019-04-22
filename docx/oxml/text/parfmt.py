@@ -32,6 +32,10 @@ class CT_Jc(BaseOxmlElement):
     val = RequiredAttribute('w:val', WD_ALIGN_PARAGRAPH)
 
 
+
+    
+
+
 class CT_PPr(BaseOxmlElement):
     """
     ``<w:pPr>`` element, containing the properties for a paragraph.
@@ -53,6 +57,7 @@ class CT_PPr(BaseOxmlElement):
     pageBreakBefore = ZeroOrOne('w:pageBreakBefore', successors=_tag_seq[4:])
     widowControl = ZeroOrOne('w:widowControl', successors=_tag_seq[6:])
     numPr = ZeroOrOne('w:numPr', successors=_tag_seq[7:])
+    pBdr = ZeroOrOne('w:pBdr', successors=_tag_seq[9:])
     tabs = ZeroOrOne('w:tabs', successors=_tag_seq[11:])
     spacing = ZeroOrOne('w:spacing', successors=_tag_seq[22:])
     ind = ZeroOrOne('w:ind', successors=_tag_seq[23:])
@@ -192,6 +197,20 @@ class CT_PPr(BaseOxmlElement):
             self._remove_pageBreakBefore()
         else:
             self.get_or_add_pageBreakBefore().val = value
+
+    # @property
+    # def border_top(self):
+    #     #return self.border
+    #     border = self.border
+    #     if border is None:
+    #         return None
+    #     return border.top
+
+    # @border.setter
+    # def border_top(self, value):
+    #     if value is None and self.border is None:
+    #         return
+    #     self.get_or_add_spacing().top = value
 
     @property
     def spacing_after(self):

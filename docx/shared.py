@@ -19,6 +19,7 @@ class Length(int):
     _EMUS_PER_MM = 36000
     _EMUS_PER_PT = 12700
     _EMUS_PER_TWIP = 635
+    _EMUS_PER_EIGHTH_OF_POINT = _EMUS_PER_PT/8
 
     def __new__(cls, emu):
         return int.__new__(cls, emu)
@@ -64,6 +65,13 @@ class Length(int):
         The equivalent length expressed in twips (int).
         """
         return int(round(self / float(self._EMUS_PER_TWIP)))
+
+    @property
+    def eighths_of_point(self):
+        """
+        The equivalent length expressed in eighths of a point.
+        """
+        return int(round(self / float(self._EMUS_PER_EIGHTH_OF_POINT)))
 
 
 class Inches(Length):
@@ -123,6 +131,13 @@ class Twips(Length):
         emu = int(twips * Length._EMUS_PER_TWIP)
         return Length.__new__(cls, emu)
 
+class EighthsOfPoint(Length):
+    """
+    Convenience constructor for length in eighths of a point.
+    """
+    def __new__(cls, eighths):
+        emu = int(eighths*Length._EMUS_PER_EIGHTH_OF_POINT)
+        return Length.__new__(cls, emu)
 
 class RGBColor(tuple):
     """

@@ -219,6 +219,17 @@ register_element_cls('w:vanish',     CT_OnOff)
 register_element_cls('w:vertAlign',  CT_VerticalAlignRun)
 register_element_cls('w:webHidden',  CT_OnOff)
 
+from .text.border import ( # noqa
+    CT_BorderSide,
+    CT_PBdr,
+)
+register_element_cls('w:top', CT_BorderSide)
+register_element_cls('w:left', CT_BorderSide)
+register_element_cls('w:bottom', CT_BorderSide)
+register_element_cls('w:right', CT_BorderSide)
+register_element_cls('w:pBdr', CT_PBdr)
+
+
 from .text.paragraph import CT_P  # noqa
 register_element_cls('w:p', CT_P)
 
