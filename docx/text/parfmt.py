@@ -11,6 +11,7 @@ from __future__ import (
 from ..enum.text import WD_LINE_SPACING
 from ..shared import ElementProxy, Emu, lazyproperty, Length, Pt, Twips
 from .tabstops import TabStops
+from .border import ParagraphBorder
 
 
 class ParagraphFormat(ElementProxy):
@@ -20,7 +21,7 @@ class ParagraphFormat(ElementProxy):
     control.
     """
 
-    __slots__ = ('_tab_stops',)
+    __slots__ = ('_tab_stops','_border',)
 
     @property
     def alignment(self):
@@ -38,6 +39,33 @@ class ParagraphFormat(ElementProxy):
     def alignment(self, value):
         pPr = self._element.get_or_add_pPr()
         pPr.jc_val = value
+
+    @property
+    def border(self):
+        """
+        |ParagraphBorder| object representing the borders of the paragraph.
+        """
+        try:
+            return self._border
+        except AttributeError:
+            pPr = self._element.pPr
+            if pPr is None:
+                return None
+            pBdr = self._element.pPr.pBdr
+            if pBdr is None:
+                return None
+            self._border = ParagraphBorder(self._element)
+        return self._border
+
+    @border.setter
+    def border(self, value):
+        if self.border is None:
+            self._border = ParagraphBorder(self._element)
+        border = self.border
+        border.top = value.top
+        border.left = value.left
+        border.bottom = value.bottom
+        border.right = value.right
 
     @property
     def first_line_indent(self):
